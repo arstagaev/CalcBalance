@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.arstagaev.calcbalance.fragments.MainScreenFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.arstagaev.calcbalance.fragments.SecondFragment"
+        android:label="fragment_sec"
+        tools:layout="@layout/fragment_second" >
+        <action
+            android:id="@+id/action_secondFragment_to_finishFragment"
+            app:destination="@id/finishFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/finishFragment"
+        android:name="com.arstagaev.calcbalance.fragments.FinishFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_finish" />
+</navigation>

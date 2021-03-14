@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="super_style">
+        <item name="fontFamily">@font/alegreya_sans_sc_medium</item>
+    </style>
+
+    //Toolbar
+    <style name="toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="logo" parent="super_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="sighs" parent="super_style">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+</resources>
