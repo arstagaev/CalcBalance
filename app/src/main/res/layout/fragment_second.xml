@@ -54,12 +54,12 @@
         tools:layout_editor_absoluteY="511dp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/second_screen_next_button_card"
+        android:id="@+id/finish_screen_generate_excel"
         android:layout_width="130dp"
         android:layout_height="60dp"
         android:layout_marginTop="144dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/white"
+
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,10 @@
         app:layout_constraintHorizontal_bias="0.893"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signs_bottom_barrier"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="1.0"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:clickable="true">
         <TextView
             style="@style/super_style"
             android:layout_width="match_parent"

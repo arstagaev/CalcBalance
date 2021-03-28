@@ -3,7 +3,6 @@ package com.arstagaev.calcbalance.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Spinner
 import androidx.cardview.widget.CardView
@@ -21,7 +20,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
         super.onViewCreated(view, savedInstanceState)
 
         buttonDate= view.findViewById(R.id.date_picker_actions)
-        cardviewButtonNext = view.findViewById(R.id.second_screen_next_button_card)
+        cardviewButtonNext = view.findViewById(R.id.finish_screen_generate_excel)
 
         cardviewButtonNext.setOnClickListener {
             findNavController().navigate(R.id.action_secondFragment_to_finishFragment)
