@@ -15,10 +15,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.google.android.material.snackbar.Snackbar
 import jxl.Workbook
 import jxl.WorkbookSettings
 import jxl.format.Colour
@@ -68,6 +70,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initNavigation()
         verifyStoragePermissions(this)
+        val timer = object: CountDownTimer(9000, 3000) {
+            override fun onTick(millisUntilFinished: Long) {
+                verifyStoragePermissions(this@MainActivity)
+
+            }
+            override fun onFinish() {
+                if(!checkAndRequestPermissions())
+                    Snackbar.make(findViewById(android.R.id.content),"Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы",10)
+
+            }
+        }
+        timer.start()
+
+
 
     }
 
@@ -76,6 +92,9 @@ class MainActivity : AppCompatActivity() {
         toolbar.navigationIcon = null
         setSupportActionBar(toolbar)
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
+
+
+
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
 
@@ -85,21 +104,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun generateExcel() {
-        createFolder("/$nameOfFolder")
-        createExcel()
+        if(checkAndRequestPermissions()){
+            createFolder("/$nameOfFolder")
+            createExcel()
 
-        val timer = object: CountDownTimer(3000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
+            val timer = object: CountDownTimer(3000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
 
+                }
+                override fun onFinish() {
+                    Toast.makeText(
+                        applicationContext,
+                        "Путь сохранения файла: " + getOutputMediaFile(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    open_file()
+                }
             }
-            override fun onFinish() {
-                Toast.makeText(applicationContext,"Путь сохранения файла: "+getOutputMediaFile(),Toast.LENGTH_LONG).show()
-                open_file()
-            }
+            timer.start()
+        }else{
+            Snackbar.make(findViewById(android.R.id.content),"Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы",10)
+
         }
-        timer.start()
-
-
     }
 
     fun open_file() {
@@ -257,6 +283,39 @@ class MainActivity : AppCompatActivity() {
         return if (folder.mkdirs()) {
             folder
         } else Environment.getExternalStorageDirectory()
+    }
+
+    val REQUEST_ID_MULTIPLE_PERMISSIONS = 1
+
+    private fun checkAndRequestPermissions(): Boolean {
+        val camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val storage =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//        val loc =
+//            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//        val loc2 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val listPermissionsNeeded: MutableList<String> = ArrayList()
+//        if (camera != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.CAMERA)
+//        }
+        if (storage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+//        if (loc2 != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION)
+//        }
+//        if (loc != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+//        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                listPermissionsNeeded.toTypedArray(),
+                REQUEST_ID_MULTIPLE_PERMISSIONS
+            )
+            return false
+        }
+        return true
     }
 
 
