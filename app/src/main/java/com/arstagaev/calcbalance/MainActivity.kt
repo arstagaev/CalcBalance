@@ -18,14 +18,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.snackbar.Snackbar
 import jxl.Workbook
 import jxl.WorkbookSettings
-import jxl.format.Colour
 import jxl.write.Label
-import jxl.write.WritableCellFormat
 import jxl.write.WritableWorkbook
 import jxl.write.WriteException
 import java.io.File
@@ -49,8 +48,8 @@ class MainActivity : AppCompatActivity() {
     // Storage Permissions
     private val REQUEST_EXTERNAL_STORAGE = 1
     private val PERMISSIONS_STORAGE = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
 
@@ -65,10 +64,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainNavDrawer: DrawerLayout
     private lateinit var toNavDrawer: ImageView
 
+    lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNavigation()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         verifyStoragePermissions(this)
         val timer = object: CountDownTimer(9000, 3000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -77,14 +80,23 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 if(!checkAndRequestPermissions())
-                    Snackbar.make(findViewById(android.R.id.content),"Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы",10)
+                    Snackbar.make(findViewById(android.R.id.content), "Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы", 10)
 
             }
         }
         timer.start()
 
+        observeChanges()
 
 
+
+    }
+
+    private fun observeChanges() {
+        viewModel.businessX.observe(this, androidx.lifecycle.Observer { r ->
+            Toast.makeText(applicationContext, "size " + r.size, Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "hey " + r.get(0).name.toString(), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun initNavigation(){
@@ -114,16 +126,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 override fun onFinish() {
                     Toast.makeText(
-                        applicationContext,
-                        "Путь сохранения файла: " + getOutputMediaFile(),
-                        Toast.LENGTH_LONG
+                            applicationContext,
+                            "Путь сохранения файла: " + getOutputMediaFile(),
+                            Toast.LENGTH_LONG
                     ).show()
                     open_file()
                 }
             }
             timer.start()
         }else{
-            Snackbar.make(findViewById(android.R.id.content),"Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы",10)
+            Snackbar.make(findViewById(android.R.id.content), "Перезайдите в приложение и одобрите работу с файлами, иначе приложение не сможет создавать Excel файлы", 10)
 
         }
     }
@@ -164,6 +176,13 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "ccc ~~~${file.toString()}")
         //val fos: FileOutputStream = FileOutputStream(file.absoluteFile)
         try {
+
+            //Creates a writable workbook with the given file name
+            //Creates a writable workbook with the given file name
+            val template = Workbook.getWorkbook(File("C:/JXL/Form-template.xls"))
+            val wbCopy = Workbook.createWorkbook(
+                    File("C:/JXL/Form-result.xls"), template)
+
             //file path
             //val file = File(directory, csvFile)
             val wbSettings = WorkbookSettings()
@@ -178,35 +197,57 @@ class MainActivity : AppCompatActivity() {
             //sheet.addCell(Label(0, 4, "Started time: "))
 
 
+            // letters and nums
+            sheet.addCell(Label(0, 3, "№"))
+            sheet.addCell(Label(1, 3, "Основание денежного требования"))
+            sheet.addCell(Label(2, 3, "Кредитор"))
+            sheet.addCell(Label(3, 3, "Должник"))
+            sheet.addCell(Label(4, 3, "Вид требования"))
+            sheet.addCell(Label(5, 3, "с"))
+            sheet.addCell(Label(6, 3, "по"))
+            sheet.addCell(Label(7, 3, "кол. дней"))
+            sheet.addCell(Label(8, 3, "Ставка (%) в день"))
+            sheet.addCell(Label(8, 3, "Размер денежного требования (руб.)"))
+            sheet.addCell(Label(8, 3, "Исполнение *"))
+            sheet.addCell(Label(8, 3, "Погашение требования (руб.)"))
+            sheet.addCell(Label(8, 3, "Дата погашения"))
+            sheet.addCell(Label(8, 3, "Вид исполнения"))
+            sheet.addCell(Label(8, 3, "Задолженность ООО \"СМУ\" перед АО \"Бастион\""))
+            sheet.addCell(Label(8, 3, "Задолженность АО `Бастион` перед ООО `СМУ`"))
 
-            sheet.addCell(Label(0, 4, "привет"))
+            sheet.addCell(Label(0, 4, "1"))
+            sheet.addCell(Label(2, 4, "" + viewModel.processMember1.value))
+            sheet.addCell(Label(3, 4, "" + viewModel.processMember2.value))
+            sheet.addCell(Label(1, 4, viewModel.businessX.value!!.get(0).name))
+
+            //sheet.addCell(Label(0, 4, "привет"))
 
 
-            val label1 = Label(0, 0, "X")
-            val newFormat = WritableCellFormat()
-            newFormat.setBackground(Colour.RED)
-            label1.cellFormat = newFormat
-            sheet.addCell(label1)
-
-            val label2 = Label(1, 0, "Y")
-            val newFormat2 = WritableCellFormat()
-            newFormat2.setBackground(Colour.GREEN)
-            label2.cellFormat = newFormat2
-            sheet.addCell(label2)
-
-            val label3 = Label(2, 0, "Z")
-            val newFormat3 = WritableCellFormat()
-            newFormat3.setBackground(Colour.BLUE)
-            label3.cellFormat = newFormat3
-            sheet.addCell(label3)
+//            val label1 = Label(0, 0, "X")
+//            val newFormat = WritableCellFormat()
+//            newFormat.setBackground(Colour.RED)
+//            label1.cellFormat = newFormat
+//            sheet.addCell(label1)
+//
+//            val label2 = Label(1, 0, "Y")
+//            val newFormat2 = WritableCellFormat()
+//            newFormat2.setBackground(Colour.GREEN)
+//            label2.cellFormat = newFormat2
+//            sheet.addCell(label2)
+//
+//            val label3 = Label(2, 0, "Z")
+//            val newFormat3 = WritableCellFormat()
+//            newFormat3.setBackground(Colour.BLUE)
+//            label3.cellFormat = newFormat3
+//            sheet.addCell(label3)
 
             //closing cursor
             workbook.write()
             workbook.close()
             Toast.makeText(
-                application,
-                "Data Exported in a Excel Sheet. \n Path:" + getOutputMediaFile(),
-                Toast.LENGTH_LONG
+                    application,
+                    "Data Exported in a Excel Sheet. \n Path:" + getOutputMediaFile(),
+                    Toast.LENGTH_LONG
             ).show()
 
 //            if (file.mkdirs()) {
@@ -309,9 +350,9 @@ class MainActivity : AppCompatActivity() {
 //        }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(
-                this,
-                listPermissionsNeeded.toTypedArray(),
-                REQUEST_ID_MULTIPLE_PERMISSIONS
+                    this,
+                    listPermissionsNeeded.toTypedArray(),
+                    REQUEST_ID_MULTIPLE_PERMISSIONS
             )
             return false
         }
@@ -322,15 +363,15 @@ class MainActivity : AppCompatActivity() {
     fun verifyStoragePermissions(activity: Activity?) {
         // Check if we have write permission
         val permission = ActivityCompat.checkSelfPermission(
-            activity!!,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
-                activity,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
             )
         }
     }

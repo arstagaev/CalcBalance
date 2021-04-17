@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!--    <DatePicker-->
+<!--        android:id="@+id/datePicker2"-->
+<!--        android:layout_width="277dp"-->
+<!--        android:layout_height="101dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginStart="56dp"-->
+<!--        android:layout_marginTop="60dp"-->
+
+<!--        android:calendarViewShown="false"-->
+<!--        android:datePickerMode="spinner"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/price" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView2"-->
+<!--        style="@style/sighs"-->
+<!--        android:layout_width="201dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:text="Договор "-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--    </TextView>-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView3"-->
+<!--        style="@style/sighs"-->
+<!--        android:layout_width="144dp"-->
+<!--        android:layout_height="41dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:text="Требование 1: "-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView2">-->
+
+<!--    </TextView>-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/name_of_agreement"-->
+<!--        android:layout_width="148dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:hint="name"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.851"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--    </EditText>-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/price"-->
+<!--        android:layout_width="149dp"-->
+<!--        android:layout_height="27dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:hint="name"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.061"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView2">-->
+
+<!--    </EditText>-->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="403dp"
+        android:layout_height="398dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/signs_bottom_barrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids=""
+        tools:layout_editor_absoluteY="511dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/next_from_three_fragment"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginBottom="16dp"
+
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signs_bottom_barrier"
+        app:layout_constraintVertical_bias="1.0"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:clickable="true">
+        <TextView
+            style="@style/super_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Далее">
+
+        </TextView>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

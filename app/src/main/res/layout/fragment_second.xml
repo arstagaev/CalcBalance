@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:text="Договор"
+        android:text="Стороны "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,25 +20,29 @@
     </TextView>
 
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Switch"
+    <EditText
+        android:id="@+id/agent1"
+        android:layout_width="299dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="40dp"
+        android:hint="сторона 1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
+    </EditText>
+
+    <EditText
+        android:id="@+id/agent2"
+        android:layout_width="299dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="76dp"
+        android:hint="сторона 2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/agent1">
+
+    </EditText>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/signs_bottom_barrier"
@@ -77,20 +81,6 @@
 
 
     </androidx.cardview.widget.CardView>
-
-    <DatePicker
-        android:id="@+id/date_picker_actions"
-        android:layout_width="371dp"
-        android:layout_height="103dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginBottom="236dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

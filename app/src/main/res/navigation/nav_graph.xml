@@ -21,7 +21,17 @@
         android:label="fragment_sec"
         tools:layout="@layout/fragment_second" >
         <action
-            android:id="@+id/action_secondFragment_to_finishFragment"
+            android:id="@+id/action_secondFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.arstagaev.calcbalance.fragments.ThirdAgreementFragment"
+        android:label="fragment_three"
+        tools:layout="@layout/fragment_agreement" >
+        <action
+            android:id="@+id/action_thirdFragment_to_finishFragment"
             app:destination="@id/finishFragment" />
     </fragment>
 
